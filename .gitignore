@@ -127,5 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
 data/ 
+
+# Specific to Yolo
+*.jpg
+*.jpeg
+*.png
+*.txt
+
