@@ -1,3 +1,6 @@
 [submodule "OIDv4_ToolKit"]
 	path = OIDv4_ToolKit
 	url = https://github.com/justma360/OIDv4_ToolKit.git
+[submodule "yolov5"]
+	path = yolov5
+	url = https://github.com/justma360/yolov5.git
