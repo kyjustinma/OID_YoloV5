@@ -21,34 +21,58 @@ This template is primary focused on Python 3.8.13 with Anaconda (using Conda-for
 - Anaconda
 
 ## Installation
+1. install the pip requirements for this repo```pip install -r requirements.txt```
+## Key points
+1. .yaml in yolov5/data store information regarding what will be trained
 
-Below is instruction on how to install the custom Conda Environment
+```
+path: ../yolov5/datasets/coco2017 # dataset root dir
+train: train2017_original.txt # text files containing path to all images
+val: val2017_original.txt # text file for all validation images
+```
 
-1. Open the folder directory in CMD / Terminal and Run the file below
-   ```
-   setup_env.bat
-   ```
-2. You will be prompted to enter the `<env_name>`, please select a suitable name and ensure that the environment does not already exist
-3. The environment will be installed and `pre-commit` will also be installed.
-4. The env comes with the below as standard
-   1. numpy
-   2. pandas
-   3. pycrypto
-   4. pre-commit - installed and applied after via command line
+.txt format 
+```
+./images/train2017/000000109622.jpg
+```
+the label should be stored in the equivalent
+```
+./labels/train2017/000000109622.txt
+```
 
-## Flow
+## Flow for CoCo Dataset
+1. Run the following python script in the yolov5 directory to train the regular CoCo dataset (coco2017.yaml uses original classes and the original .txt)
+``` 
+python train.py --weights yolov5s.pt --data coco2017.yaml --img 640
+```
 
-To effectively use the template you have to ensure that:
 
-1. Conda environment is active when using python
+## Flow for adding items to COCO dataset
+1. Download any data sets from CVAT server by `export task dataset > export as YOLO 1.1` 
+2. Move new exported datasets to coco-additions (expected folder structure)
    ```
-   conda activate <env_name>
+   obj_train_data
+   obj.data
+   obj.names
+   train.txt
    ```
-2. pre-commit is installed
-   ```
-   pre-commit install
-   ```
-
+3. The `obj_train_data` stores the .jpg and the .txt file (however the label is according to the CVAT dataset, thus needs to be changed to match the CoCo dataset)
+4. CoCo has 80 classes thus the coco-additions need to be 81 and onwards
+5. Please check the Jupyter Notebook "[movefile.ipynb](yolov5\movefile.ipynb)" to re-adjust the files to be used in coco.
+---
+6. Now the `coco2017/train2017.txt` file should have the new datasets appended. `coco2017/images` should have all the images (coco and additional dataset). `coco2017/labels` should contain all .txt labels (adjusted for first 80 coco classees)
+7. After the .txt files have been adjusted for the original classes. Adjust the path to the training and validation txt files. Add the new classes in your .yaml file. 
+```
+path: ../yolov5/datasets/coco2017 # dataset root dir
+train: train2017.txt or train2017_10000.txt (10k images) 
+val: val2017.txt 
+...
+80: new class
+```
+8. Run the following python in the yolov5 directory
+``` 
+python train.py --weights yolov5s.pt --data coco.yaml --img 640
+```
 ## Working as a team with Git
 
 1. Each person should create your branch according to feature (`git checkout -b feature/AmazingNewFeature`)
@@ -63,16 +87,9 @@ To effectively use the template you have to ensure that:
 
 # Roadmap
 
-## Features
-
-- [ ] Implement **init**.py into template
-- [ ] Add more custom utils
-- [ ] Convert to flask server
-- [ ] Add docker compile template
-
 ## Bugs
 
-None?
+
 
 [python3.8.13-shield]: https://img.shields.io/badge/Python-3.8.13-brightgreen
 [python3.8.13-url]: https://www.python.org/downloads/release/python-3813/
