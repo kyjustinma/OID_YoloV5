@@ -359,7 +359,7 @@ def generate_yolo_yaml(objects: list[str], validation=False) -> bool:
     print("\n[YAML] Yaml shown below\n", yaml_dump(project_yaml), "\n")
     yaml_file = yaml_dump(project_yaml)
     with open(
-        os.path.join(__YOLO_DIR__, "datasets", args.project, f"{args.project}.yaml"),
+        os.path.join(__YOLO_DIR__, "data", f"{args.project}.yaml"),
         "w",
     ) as outfile:
         for line in yaml_file:
